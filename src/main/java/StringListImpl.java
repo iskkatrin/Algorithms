@@ -35,12 +35,11 @@ public class StringListImpl implements StringList {
     }
 
 
-
     @Override
     public String add(String item) {
         validateSize();
         validateItem(item);
-        storage [size++]= item;
+        storage[size++] = item;
         return item;
     }
 
@@ -49,13 +48,13 @@ public class StringListImpl implements StringList {
         validateSize();
         validateItem(item);
 
-        if (index==size) {
-            storage [size++]= item;
+        if (index == size) {
+            storage[size++] = item;
         }
         return item;
 
-        System.arraycopy(storage, index, storage,index+1,size-index);
-        storage[index]=item;
+        System.arraycopy(storage, index, storage, index + 1, size - index);
+        storage[index] = item;
         size++;
         return item;
     }
@@ -64,7 +63,7 @@ public class StringListImpl implements StringList {
     public String set(int index, String item) {
         validateIndex(index);
         validateItem(item);
-        storage[index]=item;
+        storage[index] = item;
         return item;
     }
 
@@ -75,7 +74,7 @@ public class StringListImpl implements StringList {
         if (index == -1) {
             throw new ElementNotFoundException("Element " + item + " is not present in the list");
         }
-        if(index != size) {
+        if (index != size) {
             System.arraycopy(storage, index, storage, index + 1, size - index);
         }
         size--;
@@ -86,7 +85,7 @@ public class StringListImpl implements StringList {
     public String remove(int index) {
         validateItem(index);
         String item = storage[index];
-        if(index != size) {
+        if (index != size) {
             System.arraycopy(storage, index, storage, index + 1, size - index);
         }
         size--;
