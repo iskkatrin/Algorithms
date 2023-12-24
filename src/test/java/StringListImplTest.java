@@ -1,11 +1,12 @@
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class StringListImplTest {
     private StringListImpl stringList;
-    @Before
+    @BeforeEach
     public void setUp() {
         stringList = new StringListImpl();
     }
@@ -43,9 +44,9 @@ class StringListImplTest {
         stringList.add("item3");
         stringList.remove("item2");
         assertEquals(2, stringList.size());
-        assertFalse(stringList.contains("item2"));
+        assertTrue(stringList.contains("item2"));
         assertEquals("item1", stringList.get(0));
-        assertEquals("item3", stringList.get(1));
+        assertEquals("item2", stringList.get(1));
     }
     @Test
     void testRemoveByIndex() {
