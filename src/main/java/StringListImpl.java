@@ -16,15 +16,15 @@ public class StringListImpl implements StringList {
         storage = new String[initSize];
     }
 
-    private void validateItem(String Items) {
+    private void validateItem(String item) {
         if (item == null) {
-            throw new NullItemsException();
+            throw new IllegalArgumentException("Item cannot be null");
         }
     }
 
-    public void validateSize() {
-        if (item == storage.length) {
-            throw new StorageIsFullException();
+    private void validateSize() {
+        if (size == storage.length) {
+            throw new IllegalStateException("Storage is full");
         }
     }
 
@@ -35,12 +35,11 @@ public class StringListImpl implements StringList {
     }
 
 
-
     @Override
     public String add(String item) {
         validateSize();
         validateItem(item);
-        storage [size++]= item;
+        storage[size++] = item;
         return item;
     }
 
@@ -48,14 +47,13 @@ public class StringListImpl implements StringList {
     public String add(int index, String item) {
         validateSize();
         validateItem(item);
-
-        if (index==size) {
-            storage [size++]= item;
+        validateIndex(index);
+        if (index == size) {
+            storage[size++] = item;
+            return item;
         }
-        return item;
-
-        System.arraycopy(storage, index, storage,index+1,size-index);
-        storage[index]=item;
+        System.arraycopy(storage, index, storage, index + 1, size - index);
+        storage[index] = item;
         size++;
         return item;
     }
@@ -64,7 +62,7 @@ public class StringListImpl implements StringList {
     public String set(int index, String item) {
         validateIndex(index);
         validateItem(item);
-        storage[index]=item;
+        storage[index] = item;
         return item;
     }
 
@@ -75,7 +73,7 @@ public class StringListImpl implements StringList {
         if (index == -1) {
             throw new ElementNotFoundException("Element " + item + " is not present in the list");
         }
-        if(index != size) {
+        if (index != size) {
             System.arraycopy(storage, index, storage, index + 1, size - index);
         }
         size--;
@@ -84,13 +82,12 @@ public class StringListImpl implements StringList {
 
     @Override
     public String remove(int index) {
-        validateItem(index);
-        String item = storage[index];
-        if(index != size) {
-            System.arraycopy(storage, index, storage, index + 1, size - index);
-        }
+        validateIndex(index);
+        String removedItem = storage[index];
+        System.arraycopy(storage, index + 1, storage, index, size - index - 1);
+        storage[size - 1] = null;
         size--;
-        return item;
+        return removedItem;
     }
 
     @Override
@@ -100,18 +97,19 @@ public class StringListImpl implements StringList {
 
     @Override
     public int indexOf(String item) {
+        validateItem(item);
         for (int i = 0; i < size; i++) {
-            if (storage(i).equals(item)) {
+            if (storage[i].equals(item)) {
                 return i;
             }
         }
         return -1;
     }
-
     @Override
     public int lastIndexOf(String item) {
+        validateItem(item);
         for (int i = size - 1; i >= 0; i--) {
-            if (storage(i).equals(item)) {
+            if (storage[i].equals(item)) {
                 return i;
             }
         }
